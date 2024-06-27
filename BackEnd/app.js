@@ -15,7 +15,7 @@ app.use(cors());
 // Usa el middleware para parsear cuerpos de solicitudes JSON
 app.use(express.json());
 // Usa el enrutador de productos para las rutas que comienzan con '/Producto'
-app.use('/Producto', RouteProduc);
+app.use('/producto', RouteProduc);
 
 try {
     // Intenta autenticar la conexión a la base de datos
