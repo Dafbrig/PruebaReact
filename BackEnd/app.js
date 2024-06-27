@@ -14,25 +14,24 @@ const app = express();
 app.use(cors());
 // Usa el middleware para parsear cuerpos de solicitudes JSON
 app.use(express.json());
-// Usa el enrutador de productos para las rutas que comienzan con '/Producto'
+// Usa el enrutador de productos para las rutas que comienzan con '/producto'
 app.use('/producto', RouteProduc);
 
 try {
     // Intenta autenticar la conexión a la base de datos
     await database.authenticate();
-    console.log("Conexion exitosa a la DB");
+    console.log("Conexión exitosa a la base de datos");
 } catch (error) {
     // Captura y muestra cualquier error de conexión
-    console.log(`El error de conexion es: ${error}`);
+    console.error(`Error de conexión a la base de datos: ${error}`);
 }
 
 // Define una ruta raíz para probar que el servidor está funcionando
-/*app.get('/', (req, res) => {
-    res.send('Prueba');
-});*/
+app.get('/', (req, res) => {
+    res.send('¡El servidor está funcionando correctamente!');
+});
 
 // Inicia el servidor en el puerto 8000
 app.listen(8000, () => {
-    console.log('Server UP running in http://localhost:8000/');
+    console.log('Servidor activo en http://localhost:8000/');
 });
-

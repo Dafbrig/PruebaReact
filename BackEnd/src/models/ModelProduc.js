@@ -8,11 +8,11 @@ import { DataTypes } from "sequelize";
 // El modelo representa una tabla en la base de datos con las siguientes columnas y tipos de datos
 const productModel = database.define('pruebaproducto', {
     // Columna 'NomProduc' de tipo STRING
-    NomProduc: {type: DataTypes.STRING},
+    NomProduc: { type: DataTypes.STRING },
     // Columna 'DecripProduc' de tipo STRING
-    DecripProduc: {type: DataTypes.STRING},
+    DecripProduc: { type: DataTypes.STRING },
     // Columna 'CantProduc' de tipo INTEGER
-    CantProduc: {type: DataTypes.INTEGER},
+    CantProduc: { type: DataTypes.INTEGER },
 });
 
 // Exporta el modelo 'productModel' para que pueda ser utilizado en otras partes de la aplicación

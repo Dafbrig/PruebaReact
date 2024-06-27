@@ -10,22 +10,24 @@ export const getAllProduct = async (req, res) => {
         res.json(products);
     } catch (error) {
         // Si ocurre un error, envía un mensaje de error en formato JSON
-        res.json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
 // Controlador para obtener un producto específico por su ID
 export const getProduct = async (req, res) => {
     try {
-        // Encuentra todos los registros en la tabla de productos donde el IdProduc coincide con el ID proporcionado en los parámetros de la solicitud
-        const products = await productModel.findAll({
-            where: { IdProduc: req.params.id }
-        });
-        // Envía los productos encontrados como respuesta en formato JSON
-        res.json(products);
+        // Encuentra el registro en la tabla de productos donde IdProduc coincide con el ID proporcionado en los parámetros de la solicitud
+        const product = await productModel.findByPk(req.params.id);
+        // Si no se encuentra el producto, devuelve un mensaje de error
+        if (!product) {
+            return res.status(404).json({ message: "Producto no encontrado" });
+        }
+        // Envía el producto encontrado como respuesta en formato JSON
+        res.json(product);
     } catch (error) {
         // Si ocurre un error, envía un mensaje de error en formato JSON
-        res.json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
@@ -36,44 +38,52 @@ export const insertProduct = async (req, res) => {
         await productModel.create(req.body);
         // Envía un mensaje de éxito en formato JSON
         res.json({
-            "message": "Registro exitoso"
+            message: "Producto creado exitosamente"
         });
     } catch (error) {
         // Si ocurre un error, envía un mensaje de error en formato JSON
-        res.json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
 // Controlador para actualizar un producto existente por su ID
 export const updateProduct = async (req, res) => {
     try {
-        // Actualiza el registro en la tabla de productos donde el IdProduc coincide con el ID proporcionado en los parámetros de la solicitud
-        await productModel.update(req.body, {
+        // Actualiza el registro en la tabla de productos donde IdProduc coincide con el ID proporcionado en los parámetros de la solicitud
+        const [updated] = await productModel.update(req.body, {
             where: { IdProduc: req.params.id }
         });
+        // Si no se actualizó ningún registro, devuelve un mensaje de error
+        if (!updated) {
+            return res.status(404).json({ message: "Producto no encontrado para actualizar" });
+        }
         // Envía un mensaje de éxito en formato JSON
         res.json({
-            "message": "Update exitoso"
+            message: "Producto actualizado exitosamente"
         });
     } catch (error) {
         // Si ocurre un error, envía un mensaje de error en formato JSON
-        res.json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
 
 // Controlador para eliminar un producto existente por su ID
 export const deleteProduct = async (req, res) => {
     try {
-        // Elimina el registro en la tabla de productos donde el IdProduc coincide con el ID proporcionado en los parámetros de la solicitud
-        await productModel.destroy({
+        // Elimina el registro en la tabla de productos donde IdProduc coincide con el ID proporcionado en los parámetros de la solicitud
+        const deleted = await productModel.destroy({
             where: { IdProduc: req.params.id }
         });
+        // Si no se eliminó ningún registro, devuelve un mensaje de error
+        if (!deleted) {
+            return res.status(404).json({ message: "Producto no encontrado para eliminar" });
+        }
         // Envía un mensaje de éxito en formato JSON
         res.json({
-            "message": "Delete exitoso"
+            message: "Producto eliminado exitosamente"
         });
     } catch (error) {
         // Si ocurre un error, envía un mensaje de error en formato JSON
-        res.json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
 }
